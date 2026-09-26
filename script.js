@@ -1,3 +1,4 @@
+```javascript
 // =========================================
 // MOBILE MENU
 // =========================================
@@ -118,3 +119,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 });
+```
