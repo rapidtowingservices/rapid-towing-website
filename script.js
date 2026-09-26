@@ -2,109 +2,119 @@
 // MOBILE MENU
 // =========================================
 
-const menuToggle = document.querySelector(".menu-toggle");
-const nav = document.querySelector(".nav");
+document.addEventListener("DOMContentLoaded", () => {
 
-if (menuToggle && nav) {
-    menuToggle.addEventListener("click", () => {
-        nav.classList.toggle("active");
-        menuToggle.classList.toggle("active");
-    });
-}
+    const menuToggle = document.querySelector(".menu-toggle");
+    const nav = document.querySelector(".nav");
 
+    if (menuToggle && nav) {
 
-// =========================================
-// CLOSE MOBILE MENU AFTER CLICKING A LINK
-// =========================================
+        menuToggle.addEventListener("click", () => {
+            nav.classList.toggle("active");
+            menuToggle.classList.toggle("active");
+        });
 
-const navLinks = document.querySelectorAll(".nav a");
+        // Close menu after clicking a navigation link
+        const navLinks = nav.querySelectorAll("a");
 
-navLinks.forEach(link => {
-    link.addEventListener("click", () => {
-        nav.classList.remove("active");
-        menuToggle?.classList.remove("active");
-    });
-});
-
-
-// =========================================
-// SMOOTH SCROLL
-// =========================================
-
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener("click", function (e) {
-
-        const target = document.querySelector(this.getAttribute("href"));
-
-        if (target) {
-            e.preventDefault();
-
-            target.scrollIntoView({
-                behavior: "smooth",
-                block: "start"
+        navLinks.forEach(link => {
+            link.addEventListener("click", () => {
+                nav.classList.remove("active");
+                menuToggle.classList.remove("active");
             });
-        }
-    });
-});
+        });
+    }
 
 
-// =========================================
-// SCROLL REVEAL ANIMATION
-// =========================================
+    // =========================================
+    // SMOOTH SCROLL
+    // =========================================
 
-const revealElements = document.querySelectorAll(
-    ".service-card, .why-card, .brand-category, .area-card, .work-card, .contact-card"
-);
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 
-const revealObserver = new IntersectionObserver(
-    (entries, observer) => {
+        anchor.addEventListener("click", function (e) {
 
-        entries.forEach(entry => {
+            const target = document.querySelector(
+                this.getAttribute("href")
+            );
 
-            if (entry.isIntersecting) {
-                entry.target.classList.add("show");
-                observer.unobserve(entry.target);
+            if (target) {
+                e.preventDefault();
+
+                target.scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                });
             }
 
         });
 
-    },
-    {
-        threshold: 0.15
+    });
+
+
+    // =========================================
+    // SCROLL REVEAL ANIMATION
+    // =========================================
+
+    const revealElements = document.querySelectorAll(
+        ".service-card, .why-card, .brand-category, .area-card, .work-card, .contact-card"
+    );
+
+    if ("IntersectionObserver" in window) {
+
+        const revealObserver = new IntersectionObserver(
+            (entries, observer) => {
+
+                entries.forEach(entry => {
+
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("show");
+                        observer.unobserve(entry.target);
+                    }
+
+                });
+
+            },
+            {
+                threshold: 0.15
+            }
+        );
+
+        revealElements.forEach(element => {
+            element.classList.add("reveal");
+            revealObserver.observe(element);
+        });
+
     }
-);
-
-revealElements.forEach(element => {
-    element.classList.add("reveal");
-    revealObserver.observe(element);
-});
 
 
-// =========================================
-// HEADER SHADOW ON SCROLL
-// =========================================
+    // =========================================
+    // HEADER SHADOW ON SCROLL
+    // =========================================
 
-const header = document.querySelector(".header");
+    const header = document.querySelector(".header");
 
-window.addEventListener("scroll", () => {
+    window.addEventListener("scroll", () => {
 
-    if (!header) return;
+        if (!header) return;
 
-    if (window.scrollY > 50) {
-        header.classList.add("scrolled");
-    } else {
-        header.classList.remove("scrolled");
+        if (window.scrollY > 50) {
+            header.classList.add("scrolled");
+        } else {
+            header.classList.remove("scrolled");
+        }
+
+    });
+
+
+    // =========================================
+    // CURRENT YEAR IN FOOTER
+    // =========================================
+
+    const yearElement = document.querySelector("#current-year");
+
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
     }
 
 });
-
-
-// =========================================
-// CURRENT YEAR IN FOOTER
-// =========================================
-
-const yearElement = document.querySelector("#current-year");
-
-if (yearElement) {
-    yearElement.textContent = new Date().getFullYear();
-}
